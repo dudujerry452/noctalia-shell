@@ -1,0 +1,119 @@
+name: Sync Fork with Upstream
+
+on:
+  schedule:
+    # 每天 UTC 时间 16:00 运行 (北京时间凌晨 0:00)
+    - cron: '0 16 * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add Upstream
+        run: |
+          git remote add upstream https://github.com/noctalia-dev/noctalia-shell.git || true
+          git fetch upstream
+          git fetch origin
+
+      - name: Sync Specified Branches
+        id: sync
+        run: |
+          FAILED_BRANCHES=""
+          SUCCESS_BRANCHES=""
+          
+          # 只同步这些分支
+          BRANCHES="main fake-main"
+          
+          for branch in $BRANCHES; do
+            echo "=== Syncing branch: $branch ==="
+            
+            # 检查分支是否存在
+            if ! git show-ref --verify --quiet refs/remotes/origin/$branch; then
+              echo "⏭️ $branch does not exist, skipping"
+              continue
+            fi
+            
+            git checkout "$branch" || continue
+            
+            if git merge upstream/main --no-edit; then
+              # 检查是否有新提交需要推送
+              if [ $(git rev-list HEAD...origin/$branch --count) -gt 0 ]; then
+                git push origin "$branch"
+                SUCCESS_BRANCHES="$SUCCESS_BRANCHES $branch"
+                echo "✅ $branch synced successfully"
+              else
+                echo "⏭️ $branch already up to date"
+              fi
+            else
+              git merge --abort
+              FAILED_BRANCHES="$FAILED_BRANCHES $branch"
+              echo "❌ $branch has conflicts"
+            fi
+          done
+          
+          echo "failed_branches=$FAILED_BRANCHES" >> $GITHUB_OUTPUT
+          echo "success_branches=$SUCCESS_BRANCHES" >> $GITHUB_OUTPUT
+          
+          if [ -n "$FAILED_BRANCHES" ]; then
+            exit 1
+          fi
+
+      - name: Create Issue on Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const failedBranches = '${{ steps.sync.outputs.failed_branches }}'.trim();
+            const title = '⚠️ Upstream Sync Failed - Merge Conflicts';
+            const body = `自动合并 upstream/main 失败，以下分支存在冲突：
+
+            **冲突分支**: ${failedBranches || 'unknown'}
+            **时间**: ${new Date().toISOString()}
+
+            请手动解决:
+            \`\`\`bash
+            git fetch upstream
+            git checkout <branch-name>
+            git merge upstream/main
+            # 解决冲突后
+            git push origin <branch-name>
+            \`\`\`
+            `;
+
+            // 检查是否已有同名 issue 打开
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'sync-conflict'
+            });
+
+            if (issues.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['sync-conflict']
+              });
+            } else {
+              // 更新现有 issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                body: `🔄 新的同步失败:\n\n**冲突分支**: ${failedBranches}\n**时间**: ${new Date().toISOString()}`
+              });
+            }
