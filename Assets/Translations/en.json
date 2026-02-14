@@ -377,6 +377,7 @@
     "color-muted": "Muted",
     "colors": "Colors",
     "command": "Command",
+    "confirm": "Confirm",
     "connect": "Connect",
     "connected": "Connected",
     "connecting": "Connecting...",
@@ -400,6 +401,7 @@
     "edit": "Edit",
     "enabled": "Enabled",
     "error": "Error",
+    "ethernet": "Ethernet",
     "events": "Events",
     "execute": "Execute",
     "faithful": "Faithful",
@@ -474,6 +476,7 @@
     "select-color": "Select color",
     "select-color-description": "Apply theme colors for emphasis.",
     "select-icon-color": "Select icon color",
+    "settings": "Settings",
     "shortcuts": "Shortcuts",
     "shutdown": "Shutdown",
     "signal": "Signal",
@@ -507,6 +510,7 @@
     "week": "Week",
     "widgets": "Widgets",
     "width": "Width",
+    "wifi": "Wi-Fi",
     "windows": "Windows",
     "yes": "Yes"
   },
@@ -876,6 +880,21 @@
       "wallpaper-monitor-source-description": "Select which monitor to use for extracting wallpaper colors.",
       "wallpaper-monitor-source-label": "Color generation source"
     },
+    "connections": {
+      "authentication-required": "Authentication required",
+      "bluetooth-devices-unnamed": "Unnamed devices are not shown.",
+      "bluetooth-discoverable": "This device is discoverable as <b> {hostName} </b> while this settings tab is open.",
+      "bluetooth-rssi-polling-description": "Periodically sample RSSI for connected devices via bluetoothctl. May not be available for all devices; uses minimal resources when enabled.",
+      "bluetooth-rssi-polling-interval-description": "Configure how often to update signal strength for connected devices.",
+      "bluetooth-rssi-polling-interval-label": "Polling interval",
+      "bluetooth-rssi-polling-label": "Bluetooth signal polling",
+      "disable-discoverability-description": "Hide your device from nearby Bluetooth devices.",
+      "disable-discoverability-label": "Disable device visibility",
+      "hide-unnamed-devices-description": "Hide devices that appear only as Bluetooth addresses.",
+      "hide-unnamed-devices-label": "Hide unnamed devices",
+      "pin-instructions": "Please enter the PIN code displayed on your device.",
+      "title": "Connections"
+    },
     "control-center": {
       "cards-desc": "Customize which controls appear in the control center and in what order.",
       "desc": "Configure the control center panel positioning and behavior.",
@@ -1051,7 +1070,7 @@
       "keybinds-left": "Move left",
       "keybinds-modifier-description": "Shortcuts must include a modifier key (Ctrl or Alt).",
       "keybinds-modifier-title": "Modifier required",
-      "keybinds-remove": "Remove/Delete",
+      "keybinds-remove": "Remove / Delete",
       "keybinds-right": "Move right",
       "keybinds-title": "Navigation keybinds",
       "keybinds-up": "Move up",
@@ -1436,7 +1455,9 @@
       "large-buttons-style-label": "Large buttons style",
       "position-description": "Choose where the session menu panel appears when opened.",
       "show-header-description": "Display the title and close button at the top of the session menu.",
-      "show-header-label": "Show header"
+      "show-header-label": "Show header",
+      "show-keybinds-description": "Display keybind hints on session options.",
+      "show-keybinds-label": "Show keybinds"
     },
     "system-monitor": {
       "critical-color-label": "Critical color",
