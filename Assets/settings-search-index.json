@@ -432,6 +432,15 @@
     "subTabLabel": "common.bluetooth"
   },
   {
+    "labelKey": "toast.airplane-mode.title",
+    "descriptionKey": null,
+    "widget": "NToggle",
+    "tab": 15,
+    "tabLabel": "panels.connections.title",
+    "subTab": 0,
+    "subTabLabel": "common.wifi"
+  },
+  {
     "labelKey": "common.wifi",
     "descriptionKey": null,
     "widget": "NToggle",
@@ -690,6 +699,14 @@
     "labelKey": "panels.general.keybinds-title",
     "descriptionKey": "panels.general.keybinds-description",
     "widget": "NLabel",
+    "tab": 0,
+    "tabLabel": "common.general",
+    "subTab": null
+  },
+  {
+    "labelKey": "panels.general.reverse-scrolling-label",
+    "descriptionKey": "panels.general.reverse-scrolling-description",
+    "widget": "NToggle",
     "tab": 0,
     "tabLabel": "common.general",
     "subTab": null

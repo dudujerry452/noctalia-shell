@@ -300,6 +300,7 @@ Singleton {
         property list<string> keyEscape: ["Esc"]
         property list<string> keyRemove: ["Del"]
       }
+      property bool reverseScroll: false
     }
 
     // ui
