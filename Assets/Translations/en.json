@@ -599,6 +599,7 @@
   "notifications": {
     "panel": {
       "click-to-expand": "Click to expand",
+      "click-to-collapse": "Click to collapse",
       "description": "Your notifications will show up here as they arrive.",
       "no-notifications": "No notifications"
     },
@@ -1278,6 +1279,8 @@
       "duration-respect-expire-description": "Use the expire timeout set in the notification.",
       "duration-respect-expire-label": "Respect expire timeout",
       "duration-title": "Notification duration",
+      "history-clear-dismiss-description": "Clear notification from history when dismissed.",
+      "history-clear-dismiss-label": "Clear on dismissed",
       "history-critical-urgency-description": "Save critical priority notifications to history.",
       "history-critical-urgency-label": "Save critical urgency to history",
       "history-desc": "Control which notifications are saved to history based on their urgency level.",
@@ -1294,6 +1297,8 @@
       "settings-do-not-disturb-description": "Disable all notification popups when enabled.",
       "settings-enabled-description": "Enable or disable the notification daemon, requires a restart of Noctalia shell.",
       "settings-enabled-label": "Enable notifications",
+      "settings-markdown-description": "Render notification content using Markdown formatting.",
+      "settings-markdown-label": "Enable Markdown",
       "settings-location-description": "Where notifications appear on screen.",
       "sounds-desc": "Configure notification sound effects and volume.",
       "sounds-enabled-description": "Enable sound effects for incoming notifications.",
@@ -1767,6 +1772,7 @@
     "collapse": "Collapse sidebar",
     "copy-address": "Copy address",
     "delete-notification": "Delete notification",
+    "dismiss-notification": "Dismiss notification",
     "do-not-disturb-enabled": "Do Not Disturb",
     "expand": "Expand sidebar",
     "forget-network": "Forget network",
