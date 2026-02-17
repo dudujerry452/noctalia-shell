@@ -106,7 +106,8 @@ Singleton {
                                   "Brightness": {
                                     "displayMode": "onhover",
                                     "iconColor": "none",
-                                    "textColor": "none"
+                                    "textColor": "none",
+                                    "applyScrollToAllMonitors": false
                                   },
                                   "Clock": {
                                     "clockColor": "none",
@@ -127,6 +128,9 @@ Singleton {
                                   "CustomButton": {
                                     "icon": "heart",
                                     "showIcon": true,
+                                    "showExecTooltip": true,
+                                    "showTextTooltip": true,
+                                    "generalTooltipText": "",
                                     "hideMode": "alwaysExpanded",
                                     "leftClickExec": "",
                                     "leftClickUpdateText": false,

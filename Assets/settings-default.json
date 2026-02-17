@@ -124,8 +124,8 @@
       "keyRemove": [
         "Del"
       ]
-    }
-    "reverseScroll": false,
+    },
+    "reverseScroll": false
   },
   "ui": {
     "fontDefault": "",
@@ -323,6 +323,7 @@
     "enabled": true,
     "position": "bottom",
     "displayMode": "auto_hide",
+    "dockType": "floating",
     "backgroundOpacity": 1,
     "floatingRatio": 1,
     "size": 1,
@@ -333,7 +334,9 @@
     "pinnedStatic": false,
     "inactiveIndicators": false,
     "deadOpacity": 0.6,
-    "animationSpeed": 1
+    "animationSpeed": 1,
+    "sitOnFrame": false,
+    "showFrameIndicator": true
   },
   "network": {
     "wifiEnabled": true,
@@ -442,7 +445,8 @@
   "brightness": {
     "brightnessStep": 5,
     "enforceMinimum": true,
-    "enableDdcSupport": false
+    "enableDdcSupport": false,
+    "syncAllMonitors": false
   },
   "colorSchemes": {
     "useWallpaperColors": false,
