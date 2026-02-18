@@ -288,6 +288,7 @@ Singleton {
       property bool allowPasswordWithFprintd: false
       property string clockStyle: "custom"
       property string clockFormat: "hh\\nmm"
+      property bool passwordChars: false
       property list<string> lockScreenMonitors: [] // holds lock screen visibility per monitor
       property real lockScreenBlur: 0.0
       property real lockScreenTint: 0.0
@@ -592,6 +593,11 @@ Singleton {
           "action": "shutdown",
           "enabled": true,
           "keybind": "6"
+        },
+        {
+          "action": "rebootToUefi",
+          "enabled": true,
+          "keybind": "7"
         }
       ]
     }
@@ -656,7 +662,6 @@ Singleton {
       property int brightnessStep: 5
       property bool enforceMinimum: true
       property bool enableDdcSupport: false
-      property bool syncAllMonitors: false
     }
 
     property JsonObject colorSchemes: JsonObject {

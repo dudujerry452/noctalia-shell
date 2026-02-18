@@ -99,6 +99,7 @@
     "allowPasswordWithFprintd": false,
     "clockStyle": "custom",
     "clockFormat": "hh\\nmm",
+    "passwordChars": false,
     "lockScreenMonitors": [],
     "lockScreenBlur": 0,
     "lockScreenTint": 0,
@@ -386,6 +387,11 @@
         "action": "shutdown",
         "enabled": true,
         "keybind": "6"
+      },
+      {
+        "action": "rebootToUefi",
+        "enabled": true,
+        "keybind": "7"
       }
     ]
   },
@@ -445,8 +451,7 @@
   "brightness": {
     "brightnessStep": 5,
     "enforceMinimum": true,
-    "enableDdcSupport": false,
-    "syncAllMonitors": false
+    "enableDdcSupport": false
   },
   "colorSchemes": {
     "useWallpaperColors": false,
