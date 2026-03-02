@@ -256,7 +256,9 @@ Singleton {
           }
         ]
       }
-
+      property string mouseWheelAction: "none"
+      property bool reverseScroll: false
+      property bool mouseWheelWrap: true
       // Per-screen overrides for position and widgets
       // Format: [{ "name": "HDMI-1", "position": "left" }, { "name": "DP-1", "position": "bottom", "widgets": {...} }]
       property list<var> screenOverrides: []
@@ -436,6 +438,7 @@ Singleton {
     property JsonObject controlCenter: JsonObject {
       // Position: close_to_bar_button, center, top_left, top_right, bottom_left, bottom_right, bottom_center, top_center
       property string position: "close_to_bar_button"
+      property bool openAtMouseOnBarRightClick: true
       property string diskPath: "/"
       property JsonObject shortcuts
       shortcuts: JsonObject {
@@ -546,7 +549,10 @@ Singleton {
       property double deadOpacity: 0.6
       property real animationSpeed: 1.0 // Speed multiplier for hide/show animations (0.1 = slowest, 2.0 = fastest)
       property bool sitOnFrame: false
-      property bool showFrameIndicator: true
+      property bool showDockIndicator: false
+      property int indicatorThickness: 3
+      property string indicatorColor: "primary"
+      property real indicatorOpacity: 0.6
     }
 
     // network
@@ -729,7 +735,13 @@ Singleton {
       property int lockTimeout: 660         // seconds, 0 = disabled
       property int suspendTimeout: 1800     // seconds, 0 = disabled
       property int fadeDuration: 5       // seconds of fade-to-black before action fires
-      property string customCommands: "[]" // JSON array of {timeout, command}
+      property string screenOffCommand: ""
+      property string lockCommand: ""
+      property string suspendCommand: ""
+      property string resumeScreenOffCommand: ""
+      property string resumeLockCommand: ""
+      property string resumeSuspendCommand: ""
+      property string customCommands: "[]" // JSON array of {timeout, command, resumeCommand}
     }
 
     // desktop widgets
