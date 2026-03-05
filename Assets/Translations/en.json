@@ -709,12 +709,13 @@
       "debug-disabled": "Debug mode disabled",
       "debug-enabled": "Debug mode enabled",
       "info-copied": "Info copied to clipboard",
+      "noctalia-available": "Available:",
       "noctalia-desc": "A sleek and minimal desktop shell thoughtfully crafted for Wayland, built with Quickshell.",
       "noctalia-git-commit": "Git commit:",
       "noctalia-installed-version": "Installed version:",
       "noctalia-latest-version": "Latest version:",
       "noctalia-qs-version": "Noctalia QS version:",
-      "noctalia-title": "Noctalia shell",
+      "noctalia-title": "Noctalia Shell",
       "privacy-policy": "Privacy policy",
       "support": "Support us",
       "supporter-badge": "Supporter",
@@ -1846,6 +1847,10 @@
       "long-text": "Long text",
       "unavailable": "Clipboard history unavailable",
       "unavailable-desc": "The 'cliphist' application is not installed. Please install it to use clipboard history features"
+    },
+    "custom-command-failed": {
+      "description": "Command failed: {command}\nExit code: {code}",
+      "title": "Custom command failed"
     },
     "do-not-disturb": {
       "disabled": "Do Not Disturb disabled",

@@ -216,68 +216,74 @@ ShapePath {
   }
 
   // 2. Inner Hole for Framed Mode (Clockwise)
+  // When !isFramed, draws a tiny 1x1 rectangle inside the bar as a non-degenerate WindingFill
+  // no-op to prevent a zero-area degenerate subpath crashing qTriangulate.
+  // Note: an exact duplicate of the outer path cannot be used here because Qt's CurveRenderer
+  // has issues with exactly coincident subpaths, causing the fill to not render on some systems.
+  readonly property real _nhX: barMappedPos.x + barWidth / 2
+  readonly property real _nhY: barMappedPos.y + barHeight / 2
   PathMove {
-    x: (root.isFramed && root.shouldShow) ? (root.holeX + root.frameRadius) : root.startX
-    y: (root.isFramed && root.shouldShow) ? root.holeY : root.startY
+    x: root.isFramed ? (root.shouldShow ? root.holeX + root.frameRadius : 0) : root._nhX
+    y: root.isFramed ? (root.shouldShow ? root.holeY : 0) : root._nhY
   }
 
   // Top edge
   PathLine {
-    x: (root.isFramed && root.shouldShow) ? (root.holeX + root.holeWidth - root.frameRadius) : ((root.isFramed && root.shouldShow) ? (root.holeX + root.frameRadius) : root.startX)
-    y: (root.isFramed && root.shouldShow) ? root.holeY : ((root.isFramed && root.shouldShow) ? root.holeY : root.startY)
+    x: root.isFramed ? (root.shouldShow ? root.holeX + root.holeWidth - root.frameRadius : 0) : (root._nhX + 1)
+    y: root.isFramed ? (root.shouldShow ? root.holeY : 0) : root._nhY
   }
 
   // Top-right corner
   PathArc {
-    x: (root.isFramed && root.shouldShow) ? (root.holeX + root.holeWidth) : ((root.isFramed && root.shouldShow) ? (root.holeX + root.holeWidth - root.frameRadius) : root.startX)
-    y: (root.isFramed && root.shouldShow) ? (root.holeY + root.frameRadius) : ((root.isFramed && root.shouldShow) ? root.holeY : root.startY)
-    radiusX: (root.isFramed && root.shouldShow) ? root.frameRadius : 0
-    radiusY: (root.isFramed && root.shouldShow) ? root.frameRadius : 0
+    x: root.isFramed ? (root.shouldShow ? root.holeX + root.holeWidth : 0) : (root._nhX + 1)
+    y: root.isFramed ? (root.shouldShow ? root.holeY + root.frameRadius : 0) : root._nhY
+    radiusX: root.isFramed ? (root.shouldShow ? root.frameRadius : 0) : 0
+    radiusY: root.isFramed ? (root.shouldShow ? root.frameRadius : 0) : 0
     direction: PathArc.Clockwise
   }
 
   // Right edge
   PathLine {
-    x: (root.isFramed && root.shouldShow) ? (root.holeX + root.holeWidth) : root.startX
-    y: (root.isFramed && root.shouldShow) ? (root.holeY + root.holeHeight - root.frameRadius) : root.startY
+    x: root.isFramed ? (root.shouldShow ? root.holeX + root.holeWidth : 0) : (root._nhX + 1)
+    y: root.isFramed ? (root.shouldShow ? root.holeY + root.holeHeight - root.frameRadius : 0) : (root._nhY + 1)
   }
 
   // Bottom-right corner
   PathArc {
-    x: (root.isFramed && root.shouldShow) ? (root.holeX + root.holeWidth - root.frameRadius) : root.startX
-    y: (root.isFramed && root.shouldShow) ? (root.holeY + root.holeHeight) : root.startY
-    radiusX: (root.isFramed && root.shouldShow) ? root.frameRadius : 0
-    radiusY: (root.isFramed && root.shouldShow) ? root.frameRadius : 0
+    x: root.isFramed ? (root.shouldShow ? root.holeX + root.holeWidth - root.frameRadius : 0) : (root._nhX + 1)
+    y: root.isFramed ? (root.shouldShow ? root.holeY + root.holeHeight : 0) : (root._nhY + 1)
+    radiusX: root.isFramed ? (root.shouldShow ? root.frameRadius : 0) : 0
+    radiusY: root.isFramed ? (root.shouldShow ? root.frameRadius : 0) : 0
     direction: PathArc.Clockwise
   }
 
   // Bottom edge
   PathLine {
-    x: (root.isFramed && root.shouldShow) ? (root.holeX + root.frameRadius) : root.startX
-    y: (root.isFramed && root.shouldShow) ? (root.holeY + root.holeHeight) : root.startY
+    x: root.isFramed ? (root.shouldShow ? root.holeX + root.frameRadius : 0) : root._nhX
+    y: root.isFramed ? (root.shouldShow ? root.holeY + root.holeHeight : 0) : (root._nhY + 1)
   }
 
   // Bottom-left corner
   PathArc {
-    x: (root.isFramed && root.shouldShow) ? root.holeX : root.startX
-    y: (root.isFramed && root.shouldShow) ? (root.holeY + root.holeHeight - root.frameRadius) : root.startY
-    radiusX: (root.isFramed && root.shouldShow) ? root.frameRadius : 0
-    radiusY: (root.isFramed && root.shouldShow) ? root.frameRadius : 0
+    x: root.isFramed ? (root.shouldShow ? root.holeX : 0) : root._nhX
+    y: root.isFramed ? (root.shouldShow ? root.holeY + root.holeHeight - root.frameRadius : 0) : (root._nhY + 1)
+    radiusX: root.isFramed ? (root.shouldShow ? root.frameRadius : 0) : 0
+    radiusY: root.isFramed ? (root.shouldShow ? root.frameRadius : 0) : 0
     direction: PathArc.Clockwise
   }
 
   // Left edge
   PathLine {
-    x: (root.isFramed && root.shouldShow) ? root.holeX : root.startX
-    y: (root.isFramed && root.shouldShow) ? (root.holeY + root.frameRadius) : root.startY
+    x: root.isFramed ? (root.shouldShow ? root.holeX : 0) : root._nhX
+    y: root.isFramed ? (root.shouldShow ? root.holeY + root.frameRadius : 0) : root._nhY
   }
 
   // Top-left corner (back to start)
   PathArc {
-    x: (root.isFramed && root.shouldShow) ? (root.holeX + root.frameRadius) : root.startX
-    y: (root.isFramed && root.shouldShow) ? root.holeY : root.startY
-    radiusX: (root.isFramed && root.shouldShow) ? root.frameRadius : 0
-    radiusY: (root.isFramed && root.shouldShow) ? root.frameRadius : 0
+    x: root.isFramed ? (root.shouldShow ? root.holeX + root.frameRadius : 0) : root._nhX
+    y: root.isFramed ? (root.shouldShow ? root.holeY : 0) : root._nhY
+    radiusX: root.isFramed ? (root.shouldShow ? root.frameRadius : 0) : 0
+    radiusY: root.isFramed ? (root.shouldShow ? root.frameRadius : 0) : 0
     direction: PathArc.Clockwise
   }
 }
