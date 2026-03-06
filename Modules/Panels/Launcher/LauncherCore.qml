@@ -7,7 +7,6 @@ import Quickshell.Widgets
 import "Providers"
 import qs.Commons
 import qs.Services.Keyboard
-import qs.Services.Noctalia
 import qs.Services.UI
 import qs.Widgets
 
@@ -227,30 +226,23 @@ Rectangle {
         var idx = providers.indexOf(pluginProviderInstances[existingId]);
         if (idx >= 0)
           providers.splice(idx, 1);
-        pluginProviderInstances[existingId].destroy();
         delete pluginProviderInstances[existingId];
         Logger.d("Launcher", "Removed plugin provider:", existingId);
         changed = true;
       }
     }
 
-    // Add new providers
+    // Adopt persistent instances from the registry
     for (var i = 0; i < registeredIds.length; i++) {
       var providerId = registeredIds[i];
       if (!pluginProviderInstances[providerId]) {
-        var component = LauncherProviderRegistry.getProviderComponent(providerId);
-        var pluginId = providerId.substring(7); // Remove "plugin:" prefix
-        var pluginApi = PluginService.getPluginAPI(pluginId);
-        if (component && pluginApi) {
-          var instance = component.createObject(root, {
-                                                  pluginApi: pluginApi
-                                                });
-          if (instance) {
-            pluginProviderInstances[providerId] = instance;
-            registerProvider(instance);
-            Logger.d("Launcher", "Registered plugin provider:", providerId);
-            changed = true;
-          }
+        var instance = LauncherProviderRegistry.getProviderInstance(providerId);
+        if (instance) {
+          pluginProviderInstances[providerId] = instance;
+          providers.push(instance);
+          instance.launcher = root;
+          Logger.d("Launcher", "Adopted plugin provider:", providerId);
+          changed = true;
         }
       }
     }
@@ -547,7 +539,9 @@ Rectangle {
       if (showProviderCategories) {
         var cats = providerCategories;
         var idx = cats.indexOf(currentProvider.selectedCategory);
-        currentProvider.selectCategory(cats[(idx + 1) % cats.length]);
+        var nextIdx = (idx + 1) % cats.length;
+        currentProvider.selectCategory(cats[nextIdx]);
+        categoryTabs.currentIndex = nextIdx;
       } else {
         selectNextWrapped();
       }
@@ -557,7 +551,9 @@ Rectangle {
       if (showProviderCategories) {
         var cats2 = providerCategories;
         var idx2 = cats2.indexOf(currentProvider.selectedCategory);
-        currentProvider.selectCategory(cats2[((idx2 - 1) % cats2.length + cats2.length) % cats2.length]);
+        var prevIdx = ((idx2 - 1) % cats2.length + cats2.length) % cats2.length;
+        currentProvider.selectCategory(cats2[prevIdx]);
+        categoryTabs.currentIndex = prevIdx;
       } else {
         selectPreviousWrapped();
       }
