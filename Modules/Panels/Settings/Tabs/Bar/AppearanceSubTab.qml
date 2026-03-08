@@ -302,30 +302,28 @@ ColumnLayout {
       Layout.fillWidth: true
       spacing: Style.marginL
 
-      NValueSlider {
-        Layout.fillWidth: true
+      NSpinBox {
         label: I18n.tr("panels.bar.appearance-margins-vertical")
         from: 0
-        to: 18
-        stepSize: 1
-        showReset: true
+        to: 500
+        suffix: "px"
         value: Settings.data.bar.marginVertical
         defaultValue: Settings.getDefaultValue("bar.marginVertical")
-        onMoved: value => Settings.data.bar.marginVertical = value
-        text: Settings.data.bar.marginVertical + "px"
+        onValueChanged: Settings.data.bar.marginVertical = value
       }
 
-      NValueSlider {
+      Item {
         Layout.fillWidth: true
+      }
+
+      NSpinBox {
         label: I18n.tr("panels.bar.appearance-margins-horizontal")
         from: 0
-        to: 18
-        stepSize: 1
-        showReset: true
+        to: 500
+        suffix: "px"
         value: Settings.data.bar.marginHorizontal
         defaultValue: Settings.getDefaultValue("bar.marginHorizontal")
-        onMoved: value => Settings.data.bar.marginHorizontal = value
-        text: Settings.data.bar.marginHorizontal + "px"
+        onValueChanged: Settings.data.bar.marginHorizontal = value
       }
     }
   }
