@@ -319,6 +319,7 @@
     }
   },
   "battery": {
+    "all-batteries": "Todas as baterias (combinadas)",
     "battery-health": "Estado da bateria",
     "battery-level": "Nível da bateria",
     "capacity-level": "Capacidade: {level}",
@@ -826,6 +827,8 @@
       "appearance-density-label": "Densidade da barra",
       "appearance-desc": "Personalize a aparência e a posição da barra.",
       "appearance-display-mode-description": "Escolha quando a barra está visível.",
+      "appearance-enable-exclusion-zone-inset-description": "Reduza a zona de exclusão em 1 pixel físico para que as janelas alinhadas se estendam perfeitamente sob a borda da Bar.",
+      "appearance-enable-exclusion-zone-inset-label": "Zona de exclusão interna",
       "appearance-floating-description": "Exibe a barra como uma 'pílula' flutuante.",
       "appearance-floating-label": "Barra flutuante",
       "appearance-font-scale-description": "Ajustar a escala do tamanho da fonte para o texto exibido na barra.",
@@ -1022,6 +1025,7 @@
       "edit-mode-description": "Ative o modo de edição para mover e reposicionar widgets do desktop. Quando ativado, os widgets exibem um contorno de arrastar e podem ser reposicionados.",
       "edit-mode-exit-button": "Sair do modo de edição",
       "edit-mode-grid-snap-label": "Alinhar à grade",
+      "edit-mode-grid-snap-scale-label": "Escala de ajuste à grelha",
       "edit-mode-label": "Modo de edição",
       "enabled-description": "Ativar ou desativar widgets do desktop completamente.",
       "enabled-label": "Ativar widgets do desktop",
@@ -1214,7 +1218,7 @@
     },
     "hooks": {
       "info-command-info-description": "• Comandos são executados via shell (sh -lc)<br>• Comandos rodam em segundo plano (desanexados)<br>• Botões de teste executam com os valores atuais",
-      "info-parameters-description": "• Hook de papel de parede: $1 = caminho do papel de parede, $2 = nome da tela<br>• Hook de alternância de tema: $1 = verdadeiro/falso (estado do modo escuro)<br>• Hooks de bloqueio/desbloqueio de tela: Sem parâmetros<br>• Hooks de modo de desempenho: Sem parâmetros<br>• Hook de sessão: $1 = ação (desligamento/reinicialização)",
+      "info-parameters-description": "• Hook de papel de parede: $1 = caminho do papel de parede, $2 = nome da tela<br>• Hook de alternância de tema: $1 = true/false (estado do Dark Mode)<br>• Hooks de bloqueio/desbloqueio de tela: $1 = lock/unlock (estado de bloqueio de tela)<br>• Hooks de modo de desempenho: Sem parâmetros<br>• Hook de sessão: $1 = action (shutdown/reboot)",
       "info-parameters-label": "Parâmetros disponíveis",
       "noctalia-started-description": "Comando para executar quando o Noctalia terminar de carregar.",
       "noctalia-started-label": "Noctalia iniciado",
