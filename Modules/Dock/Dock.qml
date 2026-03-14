@@ -76,7 +76,7 @@ Loader {
       readonly property string displayMode: Settings.data.dock.displayMode
       readonly property bool autoHide: displayMode === "auto_hide"
       readonly property bool exclusive: displayMode === "exclusive"
-      readonly property bool isStaticMode: Settings.data.dock.dockType === "static"
+      readonly property bool isAttachedMode: Settings.data.dock.dockType === "attached"
       readonly property int hideDelay: 500
       readonly property int showDelay: 100
       readonly property int hideAnimationDuration: Math.max(0, Math.round(Style.animationFast / (Settings.data.dock.animationSpeed || 1.0)))
@@ -104,7 +104,7 @@ Loader {
       readonly property real barMarginV: Settings.data.bar.floating ? Math.ceil(Settings.data.bar.marginVertical) : 0
       readonly property int barHeight: Style.getBarHeightForScreen(modelData?.name)
       readonly property bool staticPanelOpen: {
-        if (!isStaticMode)
+        if (!isAttachedMode)
           return false;
         var panel = getStaticDockPanel();
         if (panel && panel.isPanelOpen !== undefined)
@@ -151,7 +151,7 @@ Loader {
         return Math.max(0, Math.round((edgeSize - peekEdgeLength) / 2));
       }
       readonly property bool showDockIndicator: {
-        if (!Settings.data.dock.showDockIndicator || (!autoHide && !isStaticMode) || !hidden)
+        if (!Settings.data.dock.showDockIndicator || (!autoHide && !isAttachedMode) || !hidden)
           return false;
         return !staticPanelOpen;
       }
@@ -639,13 +639,13 @@ Loader {
             menuHovered = false;
           }
           if (autoHide && !dockHovered && !anyAppHovered && !peekHovered && !menuHovered) {
-            if (isStaticMode) {
+            if (isAttachedMode) {
               const panel = getStaticDockPanel();
               if (panel && (panel.menuHovered || (panel.currentContextMenu && panel.currentContextMenu.visible))) {
                 restart();
                 return;
               }
-              if (panel && panel.isDockHovered) {
+              if (panel && (panel.isDockHovered || panel.dockHovered || panel.anyAppHovered)) {
                 restart();
                 return;
               }
@@ -669,7 +669,7 @@ Loader {
         interval: showDelay
         onTriggered: {
           if (autoHide) {
-            if (!isStaticMode) {
+            if (!isAttachedMode) {
               dockLoaded = true; // Load dock immediately
             }
             hidden = false; // Then trigger show animation
@@ -692,9 +692,9 @@ Loader {
         }
       }
 
-      // PEEK WINDOW
+      // PEEK WINDOW — only needed when dock can auto-hide or is in attached mode
       Loader {
-        active: (barIsReady || !hasBar) && modelData && (Settings.data.dock.monitors.length === 0 || Settings.data.dock.monitors.includes(modelData.name))
+        active: (autoHide || isAttachedMode) && (barIsReady || !hasBar) && modelData && (Settings.data.dock.monitors.length === 0 || Settings.data.dock.monitors.includes(modelData.name))
 
         sourceComponent: PanelWindow {
           id: peekWindow
@@ -725,7 +725,7 @@ Loader {
 
             onEntered: {
               peekHovered = true;
-              if (isStaticMode) {
+              if (isAttachedMode) {
                 if (dockItemCount <= 0)
                   return;
                 const panel = getStaticDockPanel();
@@ -741,7 +741,7 @@ Loader {
             onExited: {
               peekHovered = false;
               showTimer.stop();
-              if (isStaticMode) {
+              if (isAttachedMode) {
                 // Start hideTimer which checks panel.isDockHovered before closing
                 if (!dockHovered && !anyAppHovered && !menuHovered) {
                   hideTimer.restart();
@@ -754,9 +754,9 @@ Loader {
         }
       }
 
-      // DOCK INDICATOR WINDOW
+      // DOCK INDICATOR WINDOW — only needed when dock can auto-hide/attach and indicator is enabled
       Loader {
-        active: (barIsReady || !hasBar) && modelData && (Settings.data.dock.monitors.length === 0 || Settings.data.dock.monitors.includes(modelData.name))
+        active: (autoHide || isAttachedMode) && Settings.data.dock.showDockIndicator && (barIsReady || !hasBar) && modelData && (Settings.data.dock.monitors.length === 0 || Settings.data.dock.monitors.includes(modelData.name))
 
         sourceComponent: PanelWindow {
           id: dockIndicatorWindow
@@ -780,13 +780,16 @@ Loader {
           implicitHeight: isVertical ? peekEdgeLength : indicatorThickness
           implicitWidth: isVertical ? indicatorThickness : peekEdgeLength
 
+          // Hide the window surface when indicator is not visible, so the compositor
+          // can skip compositing this layer-shell surface entirely (saves GPU on NVIDIA)
+          visible: indicatorRect.opacity > 0 || indicatorVisible
+
           Rectangle {
             id: indicatorRect
             anchors.fill: parent
             radius: indicatorThickness
             color: Qt.alpha(Color.resolveColorKey(indicatorColorKey), indicatorOpacity)
             opacity: indicatorVisible ? 1 : 0
-            visible: opacity > 0
 
             Behavior on opacity {
               NumberAnimation {
@@ -820,7 +823,7 @@ Loader {
 
       Loader {
         id: dockWindowLoader
-        active: Settings.data.dock.enabled && !isStaticMode && (barIsReady || !hasBar) && modelData && (Settings.data.dock.monitors.length === 0 || Settings.data.dock.monitors.includes(modelData.name)) && dockLoaded && ToplevelManager && (dockApps.length > 0)
+        active: Settings.data.dock.enabled && !isAttachedMode && (barIsReady || !hasBar) && modelData && (Settings.data.dock.monitors.length === 0 || Settings.data.dock.monitors.includes(modelData.name)) && dockLoaded && ToplevelManager && (dockApps.length > 0)
 
         sourceComponent: PanelWindow {
           id: dockWindow
