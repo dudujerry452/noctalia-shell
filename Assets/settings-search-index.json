@@ -1198,6 +1198,15 @@
     "subTabLabel": "panels.hooks.title"
   },
   {
+    "labelKey": "panels.hooks.color-generation-label",
+    "descriptionKey": "panels.hooks.color-generation-description",
+    "widget": "HookRow",
+    "tab": 20,
+    "tabLabel": "panels.hooks.title",
+    "subTab": 1,
+    "subTabLabel": "panels.hooks.title"
+  },
+  {
     "labelKey": "panels.hooks.theme-changed-label",
     "descriptionKey": "panels.hooks.theme-changed-description",
     "widget": "HookRow",
@@ -2382,16 +2391,7 @@
   {
     "labelKey": "panels.wallpaper.automation-interval-label",
     "descriptionKey": "panels.wallpaper.automation-interval-description",
-    "widget": "NLabel",
-    "tab": 3,
-    "tabLabel": "common.wallpaper",
-    "subTab": 2,
-    "subTabLabel": "common.automation"
-  },
-  {
-    "labelKey": "panels.wallpaper.automation-custom-interval-label",
-    "descriptionKey": "panels.wallpaper.automation-custom-interval-description",
-    "widget": "NTextInput",
+    "widget": "NSpinBox",
     "tab": 3,
     "tabLabel": "common.wallpaper",
     "subTab": 2,
@@ -2499,7 +2499,7 @@
   {
     "labelKey": "panels.wallpaper.look-feel-transition-type-label",
     "descriptionKey": "panels.wallpaper.look-feel-transition-type-description",
-    "widget": "NComboBox",
+    "widget": "NLabel",
     "tab": 3,
     "tabLabel": "common.wallpaper",
     "subTab": 1,
